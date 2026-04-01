@@ -1,0 +1,38 @@
+outputs.tf
+  6520c6f8eefaac91 29-69
+variables.tf
+  5c25b351c79c1138 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.9",
+  "base_commit_sha": "403c39e65a10167a565659f613691726e4ad5dd5",
+  "prompts": {
+    "5c25b351c79c1138": {
+      "agent_id": {
+        "tool": "amp",
+        "id": "T-019d2012-0cf3-7693-b74d-ed62dc288177",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Harsh <harsh@nuon.co>",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "6520c6f8eefaac91": {
+      "agent_id": {
+        "tool": "amp",
+        "id": "toolu_vrtx_01J725PnBKBBkCTpQpDTkAA3",
+        "model": "unknown"
+      },
+      "human_author": "Harsh <harsh@nuon.co>",
+      "messages": [],
+      "total_additions": 41,
+      "total_deletions": 0,
+      "accepted_lines": 41,
+      "overriden_lines": 0
+    }
+  }
+}
