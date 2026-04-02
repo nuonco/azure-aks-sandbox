@@ -26,6 +26,47 @@ output "internal_domain" {
   description = "A map of internal domain attributes: nameservers, name, id."
 }
 
+output "nuon_dns" {
+  value = {
+    enabled = true
+    public_domain = {
+      zone_id     = azurerm_dns_zone.public.id
+      name        = azurerm_dns_zone.public.name
+      nameservers = tolist(azurerm_dns_zone.public.name_servers)
+    }
+    internal_domain = {
+      zone_id     = azurerm_private_dns_zone.internal.id
+      name        = azurerm_private_dns_zone.internal.name
+      nameservers = tolist([])
+    }
+    alb_ingress_controller = {
+      enabled  = false
+      id       = ""
+      chart    = ""
+      revision = ""
+    }
+    external_dns = {
+      enabled  = false
+      id       = ""
+      chart    = ""
+      revision = ""
+    }
+    cert_manager = {
+      enabled  = false
+      id       = ""
+      chart    = ""
+      revision = ""
+    }
+    ingress_nginx = {
+      enabled  = false
+      id       = ""
+      chart    = ""
+      revision = ""
+    }
+  }
+  description = "A map of Nuon DNS attributes matching the structure expected by ctl-api ProvisionDNS workflow for Route53 NS delegation."
+}
+
 output "account" {
   value = {
     "location"            = var.location
