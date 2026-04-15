@@ -44,7 +44,9 @@ module "aks" {
   net_profile_dns_service_ip        = local.dns_service_ip
   net_profile_service_cidr          = local.service_cidr
   network_plugin                    = "azure"
-  network_policy                    = "azure"
+  network_plugin_mode               = var.enable_nap ? "overlay" : null
+  network_policy                    = var.enable_nap ? "cilium" : "azure"
+  ebpf_data_plane                   = var.enable_nap ? "cilium" : null
   os_disk_size_gb                   = 60
   oidc_issuer_enabled               = true
   private_cluster_enabled           = false
@@ -58,7 +60,7 @@ module "aks" {
     "${azurerm_container_registry.acr.name}" = azurerm_container_registry.acr.id
   }
 
-  node_pools = {
+  node_pools = var.enable_nap ? {} : {
     "default" = {
       name                        = "default"
       vm_size                     = var.vm_size
@@ -70,4 +72,6 @@ module "aks" {
       temporary_name_for_rotation = "${substr(var.nuon_id, 1, 7)}temp"
     }
   }
+
+  workload_identity_enabled = var.enable_nap
 }

@@ -37,6 +37,12 @@ variable "node_count" {
   description = "The minimum number of nodes in the managed node pool."
 }
 
+variable "enable_nap" {
+  type        = bool
+  default     = false
+  description = "Enable Node Auto Provisioning (NAP) with Karpenter. Requires Azure CNI Overlay networking. Mutually exclusive with cluster autoscaler on additional node pools."
+}
+
 variable "vnet_name" {
   type        = string
   description = "The name of the existing Virtual Network created by Bicep."
