@@ -10,10 +10,10 @@ module "aks" {
   kubernetes_version        = var.cluster_version
   automatic_channel_upgrade = "patch"
   # agents_availability_zones = length(local.azs) > 0 ? local.azs : null
-  agents_count          = null
-  agents_max_count      = 2
+  agents_count          = var.enable_nap ? 1 : null
+  agents_max_count      = var.enable_nap ? null : 2
   agents_max_pods       = 100
-  agents_min_count      = 1
+  agents_min_count      = var.enable_nap ? null : 1
   agents_pool_max_surge = 1
   agents_pool_name      = "agents"
   agents_pool_linux_os_configs = [
@@ -30,7 +30,7 @@ module "aks" {
   ]
   agents_type            = "VirtualMachineScaleSets"
   azure_policy_enabled   = true
-  enable_auto_scaling    = true
+  enable_auto_scaling    = var.enable_nap ? false : true
   enable_host_encryption = false
 
   green_field_application_gateway_for_ingress = {
