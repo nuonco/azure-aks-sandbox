@@ -62,3 +62,8 @@ variable "public_subnet_names" {
   type        = string
   description = "The subnets to deploy public resources into."
 }
+
+variable "ingress_subnet_name" {
+  type        = string
+  description = "The name of the pre-created subnet for the Application Gateway (AGIC)."
+}

@@ -34,8 +34,8 @@ module "aks" {
   enable_host_encryption = false
 
   green_field_application_gateway_for_ingress = {
-    name        = "ingress"
-    subnet_cidr = local.appgw_cidr
+    name      = "ingress"
+    subnet_id = data.azurerm_subnet.ingress.id
   }
   key_vault_secrets_provider_enabled = true
   # create_role_assignments_for_application_gateway = true
