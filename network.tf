@@ -16,9 +16,3 @@ data "azurerm_subnet" "existing" {
   resource_group_name  = data.azurerm_resource_group.rg.name
 }
 
-// Data source to reference pre-created ingress subnet for Application Gateway (AGIC)
-data "azurerm_subnet" "ingress" {
-  name                 = var.ingress_subnet_name
-  virtual_network_name = data.azurerm_virtual_network.existing.name
-  resource_group_name  = data.azurerm_resource_group.rg.name
-}

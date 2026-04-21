@@ -33,12 +33,7 @@ module "aks" {
   enable_auto_scaling    = var.enable_nap ? false : true
   enable_host_encryption = false
 
-  green_field_application_gateway_for_ingress = {
-    name      = "ingress"
-    subnet_id = data.azurerm_subnet.ingress.id
-  }
   key_vault_secrets_provider_enabled = true
-  # create_role_assignments_for_application_gateway = true
   local_account_disabled            = true
   log_analytics_workspace_enabled   = false
   net_profile_dns_service_ip        = local.dns_service_ip
