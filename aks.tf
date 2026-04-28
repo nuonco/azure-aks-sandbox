@@ -10,10 +10,10 @@ module "aks" {
   kubernetes_version        = var.cluster_version
   automatic_channel_upgrade = "patch"
   # agents_availability_zones = length(local.azs) > 0 ? local.azs : null
-  agents_count          = null
-  agents_max_count      = 2
+  agents_count          = var.enable_nap ? 1 : null
+  agents_max_count      = var.enable_nap ? null : 2
   agents_max_pods       = 100
-  agents_min_count      = 1
+  agents_min_count      = var.enable_nap ? null : 1
   agents_pool_max_surge = 1
   agents_pool_name      = "agents"
   agents_pool_linux_os_configs = [
@@ -30,21 +30,18 @@ module "aks" {
   ]
   agents_type            = "VirtualMachineScaleSets"
   azure_policy_enabled   = true
-  enable_auto_scaling    = true
+  enable_auto_scaling    = var.enable_nap ? false : true
   enable_host_encryption = false
 
-  green_field_application_gateway_for_ingress = {
-    name        = "ingress"
-    subnet_cidr = local.appgw_cidr
-  }
   key_vault_secrets_provider_enabled = true
-  # create_role_assignments_for_application_gateway = true
   local_account_disabled            = true
   log_analytics_workspace_enabled   = false
   net_profile_dns_service_ip        = local.dns_service_ip
   net_profile_service_cidr          = local.service_cidr
   network_plugin                    = "azure"
-  network_policy                    = "azure"
+  network_plugin_mode               = var.enable_nap ? "overlay" : null
+  network_policy                    = var.enable_nap ? "cilium" : "azure"
+  ebpf_data_plane                   = var.enable_nap ? "cilium" : null
   os_disk_size_gb                   = 60
   oidc_issuer_enabled               = true
   private_cluster_enabled           = false
@@ -58,7 +55,7 @@ module "aks" {
     "${azurerm_container_registry.acr.name}" = azurerm_container_registry.acr.id
   }
 
-  node_pools = {
+  node_pools = var.enable_nap ? {} : {
     "default" = {
       name                        = "default"
       vm_size                     = var.vm_size
@@ -70,4 +67,6 @@ module "aks" {
       temporary_name_for_rotation = "${substr(var.nuon_id, 1, 7)}temp"
     }
   }
+
+  workload_identity_enabled = var.enable_nap
 }

@@ -24,6 +24,21 @@ repo      = "nuonco/azure-aks-sandbox"
 branch    = "main"
 ```
 
+## Node Auto Provisioning (NAP)
+
+This sandbox supports [Node Auto Provisioning (NAP)](https://learn.microsoft.com/en-us/azure/aks/node-auto-provisioning) with Karpenter. NAP automatically provisions optimal VM SKUs based on pending pod resource requirements.
+
+To enable NAP, set `enable_nap = true`. This will:
+
+- Switch networking to Azure CNI Overlay with Cilium
+- Enable workload identity on the cluster
+- Enable NAP via `azapi_update_resource`
+- Remove the static `default` node pool (NAP and cluster autoscaler are mutually exclusive)
+
+After the cluster is provisioned, deploy `AKSNodeClass` and `NodePool` CRDs to configure Karpenter's provisioning behavior. See [AKS NAP documentation](https://learn.microsoft.com/en-us/azure/aks/node-auto-provisioning) for details.
+
+> **Note:** Enabling NAP on an existing cluster that was created without it will force cluster recreation due to the networking changes.
+
 ## Testing
 
 This sandbox can be tested outside of `nuon` by following these steps:
