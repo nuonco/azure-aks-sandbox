@@ -16,6 +16,9 @@ module "aks" {
   agents_min_count      = var.enable_nap ? null : 1
   agents_pool_max_surge = 1
   agents_pool_name      = "agents"
+  # System pool on the AMD Dasv5 family (was the module default Standard_D2s_v3);
+  # keeps the whole cluster off the Dsv3 family so it draws from Dasv5 quota.
+  agents_size = "Standard_D2as_v5"
   agents_pool_linux_os_configs = [
     {
       transparent_huge_page_enabled = "always"
