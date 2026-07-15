@@ -11,7 +11,7 @@ module "aks" {
   automatic_channel_upgrade = "patch"
   # agents_availability_zones = length(local.azs) > 0 ? local.azs : null
   agents_count          = var.enable_nap ? 1 : null
-  agents_max_count      = var.enable_nap ? null : 2
+  agents_max_count      = var.enable_nap ? null : 1
   agents_max_pods       = 100
   agents_min_count      = var.enable_nap ? null : 1
   agents_pool_max_surge = 1
@@ -60,8 +60,10 @@ module "aks" {
       name                        = "default"
       vm_size                     = var.vm_size
       enable_auto_scaling         = true
-      min_count                   = 2
-      max_count                   = 4
+      # Reduced 2-4 -> 1 to fit a 10 vCPU regional quota (runner 2 + system 2 +
+      # this pool). Bump back once the subscription's vCPU quota is raised.
+      min_count                   = 1
+      max_count                   = 1
       vnet_subnet_id              = data.azurerm_subnet.existing.id
       create_before_destroy       = true
       temporary_name_for_rotation = "${substr(var.nuon_id, 1, 7)}temp"
