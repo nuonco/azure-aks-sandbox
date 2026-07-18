@@ -44,7 +44,7 @@ module "aks" {
   ebpf_data_plane                   = var.enable_nap ? "cilium" : null
   os_disk_size_gb                   = 60
   oidc_issuer_enabled               = true
-  private_cluster_enabled           = false
+  private_cluster_enabled           = !var.cluster_endpoint_public_access
   role_based_access_control_enabled = true
   rbac_aad                          = true
   rbac_aad_azure_rbac_enabled       = true
@@ -64,6 +64,10 @@ module "aks" {
       # this pool). Bump back once the subscription's vCPU quota is raised.
       min_count                   = 1
       max_count                   = 1
+      # Sandbox pool pods request 24Gi ephemeral-storage each (the unpacked
+      # sandbox image needs ~20GiB of scratch); match the AWS sandbox's
+      # disk_size = 100 instead of relying on Azure's implicit default.
+      os_disk_size_gb             = 100
       vnet_subnet_id              = data.azurerm_subnet.existing.id
       create_before_destroy       = true
       temporary_name_for_rotation = "${substr(var.nuon_id, 1, 7)}temp"
