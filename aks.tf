@@ -44,7 +44,7 @@ module "aks" {
   ebpf_data_plane                   = var.enable_nap ? "cilium" : null
   os_disk_size_gb                   = 60
   oidc_issuer_enabled               = true
-  private_cluster_enabled           = !var.cluster_endpoint_public_access
+  private_cluster_enabled           = lower(var.cluster_endpoint_public_access) == "false"
   role_based_access_control_enabled = true
   rbac_aad                          = true
   rbac_aad_azure_rbac_enabled       = true

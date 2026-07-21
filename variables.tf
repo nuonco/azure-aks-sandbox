@@ -26,9 +26,9 @@ variable "cluster_version" {
 }
 
 variable "cluster_endpoint_public_access" {
-  type        = bool
-  default     = true
-  description = "Whether the AKS cluster's Kubernetes API server endpoint is publicly accessible. When false, the cluster is created as a private cluster (system-managed private DNS zone); the API is then only reachable from inside the VNet, e.g. from the Nuon runner."
+  type        = string
+  default     = "true"
+  description = "Whether the AKS cluster's Kubernetes API server endpoint is publicly accessible. Accepts \"true\"/\"false\"; only \"false\" makes the cluster private (empty/unset defaults to public). String rather than bool so an unset optional install input renders cleanly instead of failing type validation."
 }
 
 variable "vm_size" {
