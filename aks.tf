@@ -60,14 +60,9 @@ module "aks" {
       name                        = "default"
       vm_size                     = var.vm_size
       enable_auto_scaling         = true
-      # Reduced 2-4 -> 1 to fit a 10 vCPU regional quota (runner 2 + system 2 +
-      # this pool). Bump back once the subscription's vCPU quota is raised.
-      min_count                   = 1
-      max_count                   = 1
-      # Sandbox pool pods request 24Gi ephemeral-storage each (the unpacked
-      # sandbox image needs ~20GiB of scratch); match the AWS sandbox's
-      # disk_size = 100 instead of relying on Azure's implicit default.
-      os_disk_size_gb             = 100
+      min_count                   = var.node_min_count
+      max_count                   = var.node_max_count
+      os_disk_size_gb             = var.node_os_disk_size_gb
       vnet_subnet_id              = data.azurerm_subnet.existing.id
       create_before_destroy       = true
       temporary_name_for_rotation = "${substr(var.nuon_id, 1, 7)}temp"
