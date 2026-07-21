@@ -11,7 +11,7 @@ module "aks" {
   automatic_channel_upgrade = "patch"
   # agents_availability_zones = length(local.azs) > 0 ? local.azs : null
   agents_count          = var.enable_nap ? 1 : null
-  agents_max_count      = var.enable_nap ? null : 2
+  agents_max_count      = var.enable_nap ? null : 1
   agents_max_pods       = 100
   agents_min_count      = var.enable_nap ? null : 1
   agents_pool_max_surge = 1
@@ -44,7 +44,7 @@ module "aks" {
   ebpf_data_plane                   = var.enable_nap ? "cilium" : null
   os_disk_size_gb                   = 60
   oidc_issuer_enabled               = true
-  private_cluster_enabled           = false
+  private_cluster_enabled           = !var.cluster_endpoint_public_access
   role_based_access_control_enabled = true
   rbac_aad                          = true
   rbac_aad_azure_rbac_enabled       = true
@@ -60,8 +60,9 @@ module "aks" {
       name                        = "default"
       vm_size                     = var.vm_size
       enable_auto_scaling         = true
-      min_count                   = 2
-      max_count                   = 4
+      min_count                   = var.node_min_count
+      max_count                   = var.node_max_count
+      os_disk_size_gb             = var.node_os_disk_size_gb
       vnet_subnet_id              = data.azurerm_subnet.existing.id
       create_before_destroy       = true
       temporary_name_for_rotation = "${substr(var.nuon_id, 1, 7)}temp"

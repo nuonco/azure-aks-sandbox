@@ -25,16 +25,34 @@ variable "cluster_version" {
   default     = "1.33"
 }
 
+variable "cluster_endpoint_public_access" {
+  type        = bool
+  default     = true
+  description = "Whether the AKS cluster's Kubernetes API server endpoint is publicly accessible. When false, the cluster is created as a private cluster (system-managed private DNS zone); the API is then only reachable from inside the VNet, e.g. from the Nuon runner."
+}
+
 variable "vm_size" {
   type        = string
   default     = "Standard_D2s_v3"
   description = "The image size."
 }
 
-variable "node_count" {
+variable "node_min_count" {
   type        = number
-  default     = 2
-  description = "The minimum number of nodes in the managed node pool."
+  default     = 1
+  description = "Minimum number of nodes in the default node pool (autoscaling lower bound)."
+}
+
+variable "node_max_count" {
+  type        = number
+  default     = 3
+  description = "Maximum number of nodes in the default node pool (autoscaling upper bound)."
+}
+
+variable "node_os_disk_size_gb" {
+  type        = number
+  default     = 100
+  description = "OS disk size (GiB) for default node pool nodes."
 }
 
 variable "enable_nap" {

@@ -90,6 +90,7 @@ output "cluster" {
   value = {
     "id"                     = module.aks.aks_id
     "name"                   = module.aks.aks_name
+    "version"                = var.cluster_version
     "client_certificate"     = nonsensitive(module.aks.client_certificate)
     "client_key"             = nonsensitive(module.aks.client_key)
     "cluster_ca_certificate" = nonsensitive(module.aks.cluster_ca_certificate)
