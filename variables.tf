@@ -22,7 +22,7 @@ variable "public_root_domain" {
 variable "cluster_version" {
   type        = string
   description = "The Kubernetes version to use for the AKS cluster."
-  default     = "1.33"
+  default     = "1.34"
 }
 
 variable "cluster_endpoint_public_access" {
