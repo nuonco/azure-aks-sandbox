@@ -33,7 +33,7 @@ variable "cluster_endpoint_public_access" {
 
 variable "vm_size" {
   type        = string
-  default     = "Standard_D2s_v3"
+  default     = "Standard_D2as_v6"
   description = "The image size."
 }
 

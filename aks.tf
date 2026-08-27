@@ -16,6 +16,7 @@ module "aks" {
   agents_min_count      = var.enable_nap ? null : 1
   agents_pool_max_surge = 1
   agents_pool_name      = "agents"
+  agents_size           = var.vm_size
   agents_pool_linux_os_configs = [
     {
       transparent_huge_page_enabled = "always"
