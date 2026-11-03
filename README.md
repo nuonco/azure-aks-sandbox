@@ -87,7 +87,7 @@ This sandbox can be tested outside of `nuon` by following these steps:
 
 | Name                                                                                          | Description                                                            | Type     | Default            | Required |
 | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------- | ------------------ | :------: |
-| <a name="input_cluster_version"></a> [cluster_version](#input_cluster_version)                | The Kubernetes version to use for the AKS cluster.                     | `string` | `"1.33"`           |    no    |
+| <a name="input_cluster_version"></a> [cluster_version](#input_cluster_version)                | The Kubernetes version to use for the AKS cluster.                     | `string` | `"1.36"`           |    no    |
 | <a name="input_internal_root_domain"></a> [internal_root_domain](#input_internal_root_domain) | The internal root domain.                                              | `string` | n/a                |   yes    |
 | <a name="input_location"></a> [location](#input_location)                                     | The location to launch the cluster in                                  | `string` | n/a                |   yes    |
 | <a name="input_node_count"></a> [node_count](#input_node_count)                               | The minimum number of nodes in the managed node pool.                  | `number` | `2`                |    no    |
